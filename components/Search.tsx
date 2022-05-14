@@ -7,16 +7,21 @@ import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserInfo } from '../interfaces/UserInfo';
+import { useRouter } from 'next/router';
 
 
 export default function Search() {
 
     const [username, setUsername] = useState("")
-
+    const router = useRouter()
     const handleClick = async () => {
+
+        //Will check if the username is present, if present then route to the repositories page
+        //else display an error toast.
         axios.get('https://api.github.com/users/' + username)
             .then((result) => {
                 console.log(result.data)
+                router.push('/' + username)
             })
             .catch((error) => {
                 if (error.response) {
