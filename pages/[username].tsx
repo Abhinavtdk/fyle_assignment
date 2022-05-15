@@ -8,6 +8,7 @@ import { UserInfo } from '../interfaces/UserInfo';
 import UserInfoComponent from '../components/repositories/UserInfoComponent';
 import RepositoriesComponent from '../components/repositories/RepositoriesComponent';
 import { Repository } from '../interfaces/Repository';
+import { CircularProgress } from '@mui/material';
 
 const Repositories = () => {
 
@@ -29,7 +30,8 @@ const Repositories = () => {
                 })
                 .catch((error) => {
                     if (error.response) {
-                        toast.error("Error in reading")
+                        // toast.error("Error in reading")
+                        router.push('/')
                     }
                 })
             getRepositoriesUser()
@@ -52,7 +54,7 @@ const Repositories = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    toast.error("Error in reading")
+                    // toast.error("Error in reading")
                 }
             })
     }
@@ -79,7 +81,15 @@ const Repositories = () => {
                     />
                 </div>
 
-                : null}
+                : <div style={{
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}>
+                    <CircularProgress />
+                </div>}
 
         </div>
     )
