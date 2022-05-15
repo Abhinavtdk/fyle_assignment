@@ -28,7 +28,7 @@ Netlify link: https://relaxed-cuchufli-0520b4.netlify.app/
 ## To Run Locally
 ### 1. Clone the repository
 ```sh
-$ git clone https://github.com/Abhinavtdk/fyle_assignmentt.git
+$ git clone https://github.com/Abhinavtdk/fyle_assignment.git
 ```
 
 ### 2.In the main directory, Install Dependencies
