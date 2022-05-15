@@ -5,6 +5,11 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+.avatarSize {
+    height: 200px;
+    width: 200px;
+}
+
 .url {
     display: flex;
     flex-direction: row;
@@ -14,6 +19,10 @@
     cursor: pointer;
     margin-top: 20px;
     gap: 5px;
+}
+
+.url a {
+    color: blue;
 }
 
 .userInfo {
@@ -45,4 +54,34 @@
     font-size: 15px;
     margin-top: 10px;
     gap: 5px
+}
+
+@media screen and (max-width: 576px) {
+    .userInfo {
+        flex-direction: column;
+    }
+
+    .userDetails {
+        padding: 0;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .avatarSize {
+        height: 100px;
+        width: 100px;
+    }
+
+    .url {
+        font-size: 15px;
+    }
+
+    .username {
+        font-size: 20px;
+    }
+
+    .location {
+        font-size: 15px;
+        margin-top: 5px;
+    }
 }

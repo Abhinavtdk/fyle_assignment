@@ -4,12 +4,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { toast, ToastContainer } from 'react-toastify';
 import styles from '../styles/[username].module.css'
-import { Avatar } from '@mui/material';
 import { UserInfo } from '../interfaces/UserInfo';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import PeopleIcon from '@mui/icons-material/People';
 import UserInfoComponent from '../components/repositories/UserInfoComponent';
 import RepositoriesComponent from '../components/repositories/RepositoriesComponent';
 import { Repository } from '../interfaces/Repository';
@@ -22,12 +17,13 @@ const Repositories = () => {
     const { username } = router.query
     const [userInfo, setUserInfo] = useState(userinfo)
     const [repositories, setrepositories] = useState(repositoriesVal)
+    const [page, setPage] = useState(1)
+    const [numberOfReposPerPage, setPerPage] = useState(6)
 
     useEffect(() => {
         if (username) {
             axios.get('https://api.github.com/users/' + username)
                 .then((result) => {
-                    console.log(result.data)
                     let userinfo: UserInfo = result.data
                     setUserInfo(userinfo)
                 })
@@ -36,19 +32,30 @@ const Repositories = () => {
                         toast.error("Error in reading")
                     }
                 })
-
-            axios.get('https://api.github.com/users/' + username + '/repos')
-                .then((result) => {
-                    console.log(result.data)
-                    setrepositories(result.data)
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        toast.error("Error in reading")
-                    }
-                })
+            getRepositoriesUser()
         }
     }, [username])
+
+    useEffect(() => {
+
+        if (username)
+            getRepositoriesUser()
+
+    }, [page, numberOfReposPerPage])
+
+    const getRepositoriesUser = async () => {
+
+        axios.get('https://api.github.com/users/' + username + '/repos?per_page=' + numberOfReposPerPage + '&page=' + page)
+            .then((result) => {
+                // console.log(result.data)
+                setrepositories(result.data)
+            })
+            .catch((error) => {
+                if (error.response) {
+                    toast.error("Error in reading")
+                }
+            })
+    }
 
 
     return (
@@ -62,7 +69,14 @@ const Repositories = () => {
             {userInfo ?
                 <div className={styles.body}>
                     <UserInfoComponent userInfo={userInfo} username={username} />
-                    <RepositoriesComponent repositories={repositories} />
+                    <RepositoriesComponent
+                        repositories={repositories}
+                        page={page}
+                        setPage={setPage}
+                        numberOfRepos={userInfo.public_repos}
+                        numberOfReposPerPage={numberOfReposPerPage}
+                        setNumberOfReposPerPage={setPerPage}
+                    />
                 </div>
 
                 : null}
@@ -70,12 +84,6 @@ const Repositories = () => {
         </div>
     )
 }
-
-interface UserInfoComponentProps {
-    userInfo: UserInfo,
-    username: String | String[]
-}
-
 
 
 export default Repositories

@@ -12,39 +12,47 @@ interface UserInfoComponentProps {
 }
 
 const UserInfoComponent = (props: UserInfoComponentProps) => {
+
+
     const userInfo = props.userInfo
     const username = props.username
     return (
         <div className={styles.userInfo}>
             <div className={styles.avatar}>
-                <Avatar src={userInfo.avatar_url}
-                    sx={{
-                        width: 200,
-                        height: 200
-                    }} />
+                <div className={styles.avatarSize}>
+                    <Avatar src={userInfo.avatar_url}
+                        sx={{
+                            width: "100%",
+                            height: "100%"
+                        }}
+                    />
+                </div>
+
                 <div className={styles.url}>
                     <InsertLinkIcon />
-                    {userInfo.html_url}
+                    <a href={userInfo.html_url} target="_blank" rel="noopener noreferrer">{userInfo.html_url}</a>
                 </div>
-                <div className={styles.location}>
-                    <TwitterIcon style={{ color: "blue" }} />
-                    {userInfo.twitter_username ? <div className={styles.locationText}>{userInfo.twitter_username}</div> :
-                        <div className={styles.locationText}>Twitter</div>
-                    }
-                </div>
+                {userInfo.twitter_username ?
+                    <div className={styles.location}>
+                        <TwitterIcon style={{ color: "blue" }} />
+                        <div className={styles.locationText}>{userInfo.twitter_username}</div>
+                    </div>
+                    : null}
+
 
             </div>
             <div className={styles.userDetails}>
                 <div className={styles.username}>{username}</div>
                 {userInfo.bio ? <div className={styles.bio}>{userInfo.bio}</div> :
-                    <div className={styles.bio}>Bio</div>
+                    null
                 }
-                <div className={styles.location}>
-                    <LocationOnIcon />
-                    {userInfo.location ? <div className={styles.locationText}>{userInfo.location}</div> :
-                        <div className={styles.locationText}>Location</div>
-                    }
-                </div>
+                {userInfo.location ?
+                    <div className={styles.location}>
+                        <LocationOnIcon />
+                        <div className={styles.locationText}>{userInfo.location}</div>
+                    </div>
+                    : null}
+
                 <div className={styles.location}>
                     <PeopleIcon />
                     {userInfo.followers ? <div className={styles.locationText}>{userInfo.followers} followers</div> :
